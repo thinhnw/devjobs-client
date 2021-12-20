@@ -2,11 +2,15 @@ import Vue from "vue";
 import Router from "vue-router";
 import AppHeader from "./layout/AppHeader";
 import AppFooter from "./layout/AppFooter";
+import AuthHeader from "./layout/AuthHeader";
+import AuthFooter from "./layout/AuthFooter";
 import Components from "./views/Components.vue";
 import Landing from "./views/Landing.vue";
 import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
+
+import FindJobs from './views/jobs/FindJobs.vue';
 
 Vue.use(Router);
 
@@ -15,6 +19,15 @@ export default new Router({
   routes: [
     {
       path: "/",
+      name: "find-jobs",
+      components: {
+        header: AppHeader,
+        default: FindJobs,
+        footer: AppFooter
+      }
+    },
+    {
+      path: "/components",
       name: "components",
       components: {
         header: AppHeader,
@@ -35,18 +48,18 @@ export default new Router({
       path: "/login",
       name: "login",
       components: {
-        header: AppHeader,
+        header: AuthHeader,
         default: Login,
-        footer: AppFooter
+        footer: AuthFooter
       }
     },
     {
       path: "/register",
       name: "register",
       components: {
-        header: AppHeader,
+        header: AuthHeader,
         default: Register,
-        footer: AppFooter
+        footer: AuthFooter
       }
     },
     {

@@ -96,13 +96,6 @@
           >
         </base-dropdown>
       </ul>
-      <ul class="navbar-nav align-items-lg-center ml-lg-auto mx-0">
-        <li class="nav-item d-none d-lg-block mr-0">
-          <router-link to="/login" class="btn btn-neutral btn-icon">
-            <span class="nav-link-inner--text">Sign In</span>
-          </router-link>
-        </li>
-      </ul>
     </base-nav>
   </header>
 </template>

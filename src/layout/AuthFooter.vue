@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer">
+  <footer class="footer bg-gradient-default">
     <div class="container">
       <div class="row align-items-center justify-content-md-between">
         <div class="col-md-6">
@@ -34,6 +34,5 @@ export default {
   },
 };
 </script>
-<style scoped> 
-
+<style>
 </style>
