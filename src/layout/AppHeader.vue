@@ -88,6 +88,8 @@
             <i class="ni ni-collection d-lg-none"></i>
             <span class="nav-link-inner--text">Examples</span>
           </a>
+          <router-link to="/" class="dropdown-item">Home</router-link>
+          <router-link to="/resume" class="dropdown-item">Resume</router-link>
           <router-link to="/landing" class="dropdown-item">Landing</router-link>
           <router-link to="/profile" class="dropdown-item">Profile</router-link>
           <router-link to="/login" class="dropdown-item">Login</router-link>

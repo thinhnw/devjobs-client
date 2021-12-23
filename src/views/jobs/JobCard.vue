@@ -1,11 +1,16 @@
 <template>
   <card class="border-0" hover shadow body-classes="py-5">
-    <icon name="ni ni-check-bold" type="primary" rounded class="mb-4"> </icon>
-    <h6 class="text-primary text-uppercase">Download Argon</h6>
-    <p class="description mt-3">
-      Argon is a great free UI package based on Bootstrap 4 that includes the
-      most important components and features.
-    </p>
+    <icon type="warning" class="mb-4">
+      <img
+        src="@/assets/images/logos/scoot.svg"
+        class="img-fluid rounded shadow-lg"
+        style="width: 50px"
+      />
+    </icon>
+    <h6 class="text-primary text-uppercase">
+      {{ job.jobTitle }}
+    </h6>
+    <p class="description mt-3"></p>
     <div>
       <badge type="primary" rounded>design</badge>
       <badge type="primary" rounded>system</badge>
@@ -19,10 +24,15 @@
 
 <script>
 export default {
+  props: {
+    job: Object,
+  },
   data() {
-    return {
-    }
-  }
+    return {};
+  },
+  mounted() {
+    console.log(this.job.logo);
+  },
 };
 </script>
 

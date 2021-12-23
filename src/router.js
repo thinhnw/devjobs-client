@@ -11,6 +11,7 @@ import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
 
 import FindJobs from './views/jobs/FindJobs.vue';
+import Resume from './views/resume/Resume.vue';
 
 Vue.use(Router);
 
@@ -23,6 +24,15 @@ export default new Router({
       components: {
         header: AppHeader,
         default: FindJobs,
+        footer: AppFooter
+      }
+    },
+    {
+      path: "/resume",
+      name: "resume",
+      components: {
+        header: AppHeader,
+        default: Resume,
         footer: AppFooter
       }
     },

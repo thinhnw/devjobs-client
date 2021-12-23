@@ -7,5 +7,17 @@ export default {
   },
   getCandidateById(id) {
     return Api.get(API.CANDIDATE + `/${id}`).then(res => res.data)
+  },
+
+  postPersonalProfile(params) {
+    return Api.post(API.CANDIDATE + '/profile', { params }).then(res => res.data)
+  },
+
+  postEducationProfile(params) {
+    return Api.post(API.CANDIDATE + '/educations', { params }).then(res => res.data)
+  },
+
+  postWorkExperience(params) {
+    return Api.post(API.CANDIDATE + '/WorkExperiences', { params }).then(res => res.data)
   }
 }

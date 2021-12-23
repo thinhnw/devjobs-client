@@ -18,7 +18,7 @@
           <div class="col px-0">
             <div class="row">
               <div class="col-lg-12">
-								<JobSearchBar />
+                <JobSearchBar />
               </div>
             </div>
           </div>
@@ -32,7 +32,7 @@
           <div class="col-lg-12">
             <div class="row row-grid">
               <div class="col-lg-4">
-                <JobCard /> 
+                <JobCard :job="job" />
               </div>
               <div class="col-lg-4">
                 <card class="border-0" hover shadow body-classes="py-5">
@@ -88,31 +88,34 @@
 <script>
 import JobSearchBar from "./JobSearchBar.vue";
 import JobCard from "./JobCard.vue";
+
+import jobList from "@/mock-data/jobList";
 export default {
   components: {
-    JobSearchBar, JobCard
+    JobSearchBar,
+    JobCard,
   },
-	data() {
-		return {
-
-		}
-	}
+  data() {
+    return {
+      job: jobList[0],
+    };
+  },
 };
 </script>
 <style lang="scss">
 .find-jobs {
-	.section-shaped {
-		.shape{
-			&.shape-skew {
-				+ .container {
-					.row {
-						.col {
-							margin-top: 0;
-						}
-					}	
-				} 
-			}
-		}
-	}
+  .section-shaped {
+    .shape {
+      &.shape-skew {
+        + .container {
+          .row {
+            .col {
+              margin-top: 0;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 </style>
