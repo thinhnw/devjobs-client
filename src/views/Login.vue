@@ -60,10 +60,11 @@
   </section>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 // import { showSuccess } from "@/utils/message";
 // import { Status } from "@/utils/constants";
-import corporate from "@/api/corporate";
+import router from "@/router";
+import { getToken } from "@/utils/auth";
 
 export default {
   data() {
@@ -76,12 +77,18 @@ export default {
   },
   methods: {
     ...mapActions("auth", ["register", "login"]),
-    handleLogin() {
-      this.login(this.model);
+    async handleLogin() {
+      try {
+        await this.login(this.model);
+        if (getToken()) {
+          router.push("/")
+        }
+      } catch (error) {
+        
+      }
     },
   },
   mounted() {
-    corporate.getCorporates();
   },
 };
 </script>

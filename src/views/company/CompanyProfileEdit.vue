@@ -16,8 +16,7 @@
             <div class="col-lg-12">
               <b-card>
                 <div class="d-flex justify-content-between align-items-center">
-                  <h3 @click="prevStep">Create a CV</h3>
-                  <p class="mb-0" @click="nextStep">Step {{ stepNumber }} of {{ totalSteps }}</p>
+                  <h3 @click="prevStep">Setup Company Profile</h3>
                 </div>
               </b-card>
             </div>
@@ -33,10 +32,7 @@
             spinner-variant="primary"
             class="px-4 py-5"
           >
-            <PersonalInfoForm v-if="stepNumber === 1" @submit="nextStep" />
-            <EducationForm v-if="stepNumber === 2" @submit="nextStep" />
-            <WorkExperienceForm v-if="stepNumber === 3" @submit="nextStep" />
-            <SkillsForm v-if="stepNumber === 4" @submit="nextStep" />,
+            <CompanyProfileForm />
           </b-overlay>
         </card>
       </div>
@@ -44,16 +40,10 @@
   </div>
 </template>
 <script>
-import PersonalInfoForm from "./PersonalInfoForm.vue";
-import EducationForm from "./EducationForm.vue";
-import WorkExperienceForm from "./WorkExperienceForm.vue";
-import SkillsForm from "./SkillsForm.vue";
+import CompanyProfileForm from "./CompanyProfileForm.vue";
 export default {
   components: {
-    PersonalInfoForm,
-    EducationForm,
-    WorkExperienceForm,
-    SkillsForm
+    CompanyProfileForm
   },
   data() {
     return {

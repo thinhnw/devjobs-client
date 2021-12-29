@@ -6,24 +6,21 @@ import AuthHeader from "./layout/AuthHeader";
 import AuthFooter from "./layout/AuthFooter";
 import Components from "./views/Components.vue";
 import Landing from "./views/Landing.vue";
-import Login from "./views/Login.vue";
-import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
 
-import FindJobs from './views/jobs/FindJobs.vue';
-import Resume from './views/resume/Resume.vue';
+import { getToken } from "@/utils/auth";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   linkExactActiveClass: "active",
   routes: [
     {
       path: "/",
-      name: "find-jobs",
+      name: "home",
       components: {
         header: AppHeader,
-        default: FindJobs,
+        default: () => import('@/views/jobs/FindJobs.vue'),
         footer: AppFooter
       }
     },
@@ -32,7 +29,34 @@ export default new Router({
       name: "resume",
       components: {
         header: AppHeader,
-        default: Resume,
+        default: () => import('@/views/resume/Resume.vue'),
+        footer: AppFooter
+      }
+    },
+    {
+      path: '/company',
+      name: 'company',
+      components: {
+        header: AppHeader,
+        default: () => import('@/views/company/CompanyProfile.vue'),
+        footer: AppFooter
+      }
+    },
+    {
+      path: '/company/edit',
+      name: 'company.edit',
+      components: {
+        header: AppHeader,
+        default: () => import('@/views/company/CompanyProfileEdit.vue'),
+        footer: AppFooter
+      }
+    },
+    {
+      path: '/post-job',
+      name: 'post-job',
+      components: {
+        header: AppHeader,
+        default: () => import('@/views/jobs/PostJob.vue'),
         footer: AppFooter
       }
     },
@@ -59,7 +83,7 @@ export default new Router({
       name: "login",
       components: {
         header: AuthHeader,
-        default: Login,
+        default: () => import('@/views/Login.vue'),
         footer: AuthFooter
       }
     },
@@ -68,7 +92,7 @@ export default new Router({
       name: "register",
       components: {
         header: AuthHeader,
-        default: Register,
+        default: () => import('@/views/Register.vue'),
         footer: AuthFooter
       }
     },
@@ -90,3 +114,16 @@ export default new Router({
     }
   }
 });
+
+router.beforeEach((to, from, next) => {
+  console.log(getToken())
+  if (getToken() && ['login', 'register'].includes(to.name)) {
+    if (from.name != to.name) {
+      next({ name: from.name })
+    }
+    next({ name: 'home' })
+  }
+  next()
+})
+
+export default router

@@ -12,7 +12,7 @@
     </div>
     <div class="container pt-lg-md">
       <div class="row justify-content-center">
-        <div class="col-lg-5 py-5">
+        <div class="col-lg-5 ">
           <card
             type="secondary"
             shadow
@@ -42,10 +42,15 @@
                   v-model="model.password"
                 >
                 </base-input>
-               
-                <base-checkbox v-model="model.isCorporate">
-                  <span>I want to register as a Company</span>
-                </base-checkbox>
+                <b-row>
+                  <b-col>
+                    <b-form-group>
+                      <label>Your roles <span class="text-danger">*</span></label>
+                      <b-form-radio v-model="model.isCorporate" :value="true" class=" text-left pl-5 mr-0 form-control">Employer</b-form-radio>
+                      <b-form-radio v-model="model.isCorporate" :value="false" class="form-control mt-3 text-left pl-5">Job seeker</b-form-radio>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
                 <div class="text-center">
                   <b-button type="submit" variant="primary" class="my-4">Sign Up</b-button>
                 </div>
@@ -77,8 +82,15 @@ export default {
   },
   methods: {
     ...mapActions("auth", ["register", "login"]),
-    handleRegister() {
-      this.register(this.model);
+    async handleRegister() {
+      try {
+        await this.register(this.model);
+        if (getToken()) {
+          router.push("/")
+        }
+      } catch (error) {
+        
+      }
     },
   },
 };

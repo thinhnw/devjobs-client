@@ -90,6 +90,8 @@
           </a>
           <router-link to="/" class="dropdown-item">Home</router-link>
           <router-link to="/resume" class="dropdown-item">Resume</router-link>
+          <router-link to="/company" class="dropdown-item">Company</router-link>
+          <router-link to="/post-job" class="dropdown-item">Post Job</router-link>
           <router-link to="/landing" class="dropdown-item">Landing</router-link>
           <router-link to="/profile" class="dropdown-item">Profile</router-link>
           <router-link to="/login" class="dropdown-item">Login</router-link>
@@ -98,11 +100,49 @@
           >
         </base-dropdown>
       </ul>
-      <ul class="navbar-nav align-items-lg-center ml-lg-auto mx-0">
+      <ul v-if="!token"
+        class="navbar-nav align-items-lg-center ml-lg-auto mx-0"
+      >
         <li class="nav-item d-none d-lg-block mr-0">
           <router-link to="/login" class="btn btn-neutral btn-icon">
             <span class="nav-link-inner--text">Sign In</span>
           </router-link>
+        </li>
+      </ul>
+      <ul v-else
+        class="navbar-nav align-items-lg-center ml-lg-auto mx-0">
+        <li class="nav-item dropdown">
+          <base-dropdown class="nav-link pr-0" role="button" position="right">
+            <template v-slot:title>
+              <div class="media align-items-center mb-0">
+                <div class="media-body mr-2 d-none d-lg-block">
+                  <span class="mb-0 text-sm font-weight-bold">Jessica Jones</span>
+                </div>
+                <span class="avatar avatar-sm rounded-circle">
+                  <img
+                    alt="Image placeholder"
+                    src="img/theme/team-4-800x800.jpg"
+                  />
+                </span>
+              </div>
+            </template>
+            <div class="dropdown-header noti-title">
+              <h6 class="text-overflow m-0">Welcome!</h6>
+            </div>
+            <router-link to="/profile" class="dropdown-item">
+              <i class="ni ni-single-02"></i>
+              <span>My profile</span>
+            </router-link>
+            <router-link to="/settings" class="dropdown-item">
+              <i class="ni ni-settings-gear-65"></i>
+              <span>Settings</span>
+            </router-link>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-item" @click="logout">
+              <i class="ni ni-user-run"></i>
+              <span>Logout</span>
+            </div>
+          </base-dropdown>
         </li>
       </ul>
     </base-nav>
@@ -113,11 +153,29 @@ import BaseNav from "@/components/BaseNav";
 import BaseDropdown from "@/components/BaseDropdown";
 import CloseButton from "@/components/CloseButton";
 
+import { getToken } from "@/utils/auth";
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
   components: {
     BaseNav,
     CloseButton,
     BaseDropdown,
+  },
+  methods: {
+    ...mapActions("auth", ["clear"]),
+    logout() {
+      this.clear().then(() => {
+        const token = new URL(window.location.href).searchParams.get('token')
+        if (token) {
+          this.$router.push('home')
+        }
+        location.reload()// In order to re-instantiate the vue-router object to avoid bugs
+      })
+    }
+  },
+  computed: {
+    ...mapGetters("auth", ["token"])
   },
 };
 </script>

@@ -1,18 +1,18 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-center">
-      <h3 @click="addEducationObj">Education</h3>
+      <h3>Work Experience</h3>
       <icon
-        class="btn btn-primary"
-        name="fa fa-plus"
-        @click="addEducationObj"
+        class="btn btn-primary "
+        name="fa fa-plus "
+        @click="addWorkObj"
       >
       </icon>
     </div>
     <p><span class="text-danger">*</span> Required fields</p>
     <b-form>
       <div
-        v-for="(education, index) in educationProfile"
+        v-for="(work, index) in workProfile"
         :key="index"
         :class="{ 'border-top': index > 0 }"
         class="py-3"
@@ -20,43 +20,38 @@
         <b-row>
           <b-col cols="6">
             <b-form-group>
-              <label>Degree <span class="text-danger">*</span></label>
-              <b-form-select
-                v-model="education.degree"
-                :options="degreeOptions"
+              <label>Job Title <span class="text-danger">*</span></label>
+              <b-form-input
+                v-model="work.jobTitle"
+                required
+              />
+            </b-form-group>
+          </b-col>
+          <b-col>
+            <b-form-group>
+              <label>Company <span class="text-danger">*</span></label>
+              <b-form-input
+                v-model="work.organization"
+                required
               />
             </b-form-group>
           </b-col>
         </b-row>
-        <b-row v-if="education.degree !== 'None'">
-          <b-col>
-            <b-form-group>
-              <label>School <span class="text-danger">*</span></label>
-              <b-form-input v-model="education.school" required />
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <b-form-group>
-              <label>Field of Study <span class="text-danger">*</span></label>
-              <b-form-input v-model="education.fieldOfStudy" required />
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row v-if="education.degree !== 'None'">
+        <b-row>
           <b-col>
             <b-form-group>
               <label>Country <span class="text-danger">*</span></label>
-              <b-form-input v-model="education.country" required />
+              <b-form-input v-model="work.country" required />
             </b-form-group>
           </b-col>
           <b-col>
             <b-form-group>
               <label>City <span class="text-danger">*</span></label>
-              <b-form-input v-model="education.city" required />
+              <b-form-input v-model="work.city" required />
             </b-form-group>
           </b-col>
         </b-row>
-        <b-row v-if="education.degree !== 'None'">
+        <b-row>
           <b-col>
             <label>From</label>
             <base-input addon-left-icon="ni ni-calendar-grid-58">
@@ -65,7 +60,7 @@
                 @on-close="blur"
                 :config="{allowInput: true}"
                 class="form-control datepicker"
-                v-model="education.fromTime">
+                v-model="work.fromTime">
               </flat-picker>
             </base-input>
           </b-col>
@@ -77,7 +72,7 @@
                 @on-close="blur"
                 :config="{allowInput: true}"
                 class="form-control datepicker"
-                v-model="education.toTime">
+                v-model="work.toTime">
               </flat-picker>
             </base-input>
           </b-col>
@@ -98,15 +93,14 @@
 <script>
 import flatPicker from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
-const educationObj = () => {
+const workObj = () => {
   return {
-    degree: "None",
-    fieldOfStudy: "",
-    school: "",
+    jobTitle: "",
+    organization: "",
     city: "",
     country: "",
     fromTime: "",
-    toTime: "",
+    toTime: ""
   };
 };
 export default {
@@ -115,27 +109,17 @@ export default {
   },
   data() {
     return {
-      degreeOptions: [
-        "None",
-        "Middle school",
-        "High school",
-        "Vocational Certificate",
-        "Bachelor's",
-        "Master's",
-        "Doctorate",
-      ],
-      educationProfile: [educationObj()],
+      workProfile: [workObj()],
     };
   },
   methods: {
-    addEducationObj() {
-      console.log(this.educationProfile);
-      if (this.educationProfile.some((profile) => profile.degree === "None"))
+    addWorkObj() {
+      if (this.workProfile.some((profile) => profile.jobTitle === ""))
         return;
-      this.educationProfile.push(educationObj());
+      this.workProfile.push(workObj());
     },
     async submit() {
-      console.log(this.educationProfile);
+      console.log(this.workProfile);
     },
   },
 };

@@ -21,9 +21,10 @@ const setup = (instance) => {
 const checkToken = (instance) => {
   instance.interceptors.response.use(
     response => {
-      if (response.headers['Content-Type'].startsWith('application/json')) {
+      if (response.headers['content-type'].startsWith('application/json')) {
         response.data = camelCaseKeys(response.data)
       }
+      return response
     },
     error => {
       if (

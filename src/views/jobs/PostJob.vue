@@ -1,5 +1,5 @@
 <template>
-  <div class="profile-page">
+  <div class="post-job">
     <section class="section-profile-cover section-shaped my-0">
       <div class="shape shape-style-1 shape-primary shape-skew alpha-4">
         <span></span>
@@ -16,7 +16,7 @@
             <div class="col-lg-12">
               <b-card>
                 <div class="d-flex justify-content-between align-items-center">
-                  <h3 @click="prevStep">Create a CV</h3>
+                  <h3 @click="prevStep">Post Job</h3>
                   <p class="mb-0" @click="nextStep">Step {{ stepNumber }} of {{ totalSteps }}</p>
                 </div>
               </b-card>
@@ -33,10 +33,8 @@
             spinner-variant="primary"
             class="px-4 py-5"
           >
-            <PersonalInfoForm v-if="stepNumber === 1" @submit="nextStep" />
-            <EducationForm v-if="stepNumber === 2" @submit="nextStep" />
-            <WorkExperienceForm v-if="stepNumber === 3" @submit="nextStep" />
-            <SkillsForm v-if="stepNumber === 4" @submit="nextStep" />,
+            <PostJobStepOneForm v-show="stepNumber == 1" @next="updateParams" />
+            <PostJobStepTwoForm v-show="stepNumber == 2" @next="updateParams" />
           </b-overlay>
         </card>
       </div>
@@ -44,22 +42,31 @@
   </div>
 </template>
 <script>
-import PersonalInfoForm from "./PersonalInfoForm.vue";
-import EducationForm from "./EducationForm.vue";
-import WorkExperienceForm from "./WorkExperienceForm.vue";
-import SkillsForm from "./SkillsForm.vue";
+import PostJobStepOneForm from './PostJobStepOneForm.vue'
+import PostJobStepTwoForm from './PostJobStepTwoForm.vue'
+import job from '@/api/job'
 export default {
   components: {
-    PersonalInfoForm,
-    EducationForm,
-    WorkExperienceForm,
-    SkillsForm
+    PostJobStepOneForm,
+    PostJobStepTwoForm,
   },
   data() {
     return {
       stepNumber: 1,
       totalSteps: 4,
       isSpinning: false,
+      params: {
+        title: "",
+        country: "",
+        city: "",
+        isRemote: false,
+        hiringNumber: 1,
+        type: "full_time",
+        salaryMin: "",
+        salaryMax: "",
+        salaryRate: "per_month",
+        description: ""
+      }
     };
   },
   methods: {
@@ -75,8 +82,27 @@ export default {
     prevStep() {
       this.stepNumber--;
     },
+    updateParams(model) {
+      this.params = { ...this.params, ...model }
+      console.log(this.params)
+      if (this.stepNumber == 2) this.submit()
+      this.nextStep()
+    },
+    async submit() {
+      console.log(this.params)
+      try {
+        await job.postJob(this.params) 
+      } catch (error) {
+        console.error(error) 
+      }
+    }
   },
 };
 </script>
-<style>
+<style lang="scss">
+.post-job {
+  .ck-content {
+    height: 300px;
+  }
+}
 </style>

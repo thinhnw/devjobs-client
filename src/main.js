@@ -20,7 +20,7 @@ import App from "@/App.vue";
 import router from "@/router";
 import store from "@/store";
 import i18n from "@/lang";
-
+import CKEditor from '@ckeditor/ckeditor5-vue2';
 import { BootstrapVue } from 'bootstrap-vue'
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
@@ -31,6 +31,8 @@ import './registerServiceWorker'
 
 
 Vue.config.productionTip = false;
+
+Vue.use(CKEditor)
 Vue.use(BootstrapVue)
 Vue.use(Argon);
 new Vue({

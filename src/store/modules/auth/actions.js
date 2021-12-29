@@ -5,6 +5,9 @@ import { Status } from '@/utils/constants'
 const register = ({ commit }, params) => {
   return auth.register(params).then(res => {
     if (res.status === Status.SUCCESS) {
+      if (res.data.token) {
+        setToken(res.data.token)
+      }
       commit('REGISTER', res.data)
     }
     return res
@@ -15,8 +18,11 @@ const register = ({ commit }, params) => {
 
 const login = ({ commit }, user) => {
   return auth.login(user).then(res => {
+    console.log(res, res.status)
     if (res.status === Status.SUCCESS) {
-      setToken(res.data)
+      if (res.data.token) {
+        setToken(res.data.token)
+      }
       commit('LOGIN_DEFAULT', res.data)
     }
     return res

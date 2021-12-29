@@ -2,7 +2,8 @@ const API = {
   LOGIN: '/auth/login',
   REGISTER: '/auth/register',  
   CANDIDATE: '/candidates',
-  CORPORATE: '/corporates'
+  CORPORATE: '/corporates',
+  JOB: '/jobs'
 }
 
 const Status = {
