@@ -2,7 +2,10 @@
   <header class="header-global">
     <base-nav class="navbar-main" transparent type="" effect="light" expand>
       <router-link slot="brand" class="navbar-brand mr-lg-5" to="/">
-        <img src="img/brand/white.png" alt="logo" />
+        <div class="d-flex align-items-center">
+          <img src="img/brand/planet.png" alt="logo" />
+          <h2 class="text-white font-weight-bold ml-2 mb-0">DEVJOBS</h2>
+        </div>
       </router-link>
 
       <div class="row" slot="content-header" slot-scope="{ closeMenu }">
@@ -116,7 +119,7 @@
             <template v-slot:title>
               <div class="media align-items-center mb-0">
                 <div class="media-body mr-2 d-none d-lg-block">
-                  <span class="mb-0 text-sm font-weight-bold">Jessica Jones</span>
+                  <span class="mb-0 text-sm font-weight-bold"></span>
                 </div>
                 <span class="avatar avatar-sm rounded-circle">
                   <img
@@ -129,7 +132,7 @@
             <div class="dropdown-header noti-title">
               <h6 class="text-overflow m-0">Welcome!</h6>
             </div>
-            <router-link to="/profile" class="dropdown-item">
+            <router-link :to="{ name: profileRoute }" class="dropdown-item">
               <i class="ni ni-single-02"></i>
               <span>My profile</span>
             </router-link>
@@ -162,8 +165,16 @@ export default {
     CloseButton,
     BaseDropdown,
   },
+  data() {
+    return {
+      isAuthenticated: false
+    }
+  },
   methods: {
-    ...mapActions("auth", ["clear"]),
+    ...mapActions("auth", {
+      clear: "clear",
+      fetchMe: "me"
+    }),
     logout() {
       this.clear().then(() => {
         const token = new URL(window.location.href).searchParams.get('token')
@@ -175,8 +186,28 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("auth", ["token"])
+    ...mapGetters("auth", ["token", "me"]),
+    profileRoute() {
+      console.log(this.me)
+      if (this.me.role == "corporate") return "company"
+      return "resume"
+    }
   },
+  watch: {
+    token() {
+      if (this.token) {
+        this.isAuthenticated = true
+      } else {
+        this.isAuthenticated = false
+      }
+    }
+  },
+  mounted() {
+    if (getToken()) {
+      this.$store.commit('auth/LOGIN_DEFAULT', { token: getToken() })
+      this.fetchMe()
+    }
+  }
 };
 </script>
 <style>

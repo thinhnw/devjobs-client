@@ -7,13 +7,13 @@
         <b-col>
           <b-form-group>
             <label>First Name <span class="text-danger">*</span></label>
-            <b-form-input v-model="formData.firstName" required />
+            <b-form-input v-model="model.firstName" required />
           </b-form-group>
         </b-col>
         <b-col>
           <b-form-group>
             <label>Last Name <span class="text-danger">*</span></label>
-            <b-form-input v-model="formData.lastName" required />
+            <b-form-input v-model="model.lastName" required />
           </b-form-group>
         </b-col>
       </b-row>
@@ -21,13 +21,13 @@
         <b-col>
           <b-form-group>
             <label>Country <span class="text-danger">*</span></label>
-            <b-form-input v-model="formData.country" required />
+            <b-form-input v-model="model.country" required />
           </b-form-group>
         </b-col>
         <b-col>
           <b-form-group>
             <label>City <span class="text-danger">*</span></label>
-            <b-form-input v-model="formData.city" required />
+            <b-form-input v-model="model.city" required />
           </b-form-group>
         </b-col>
       </b-row>
@@ -35,7 +35,7 @@
         <b-col>
           <b-form-group>
             <label>Street Address</label>
-            <b-form-input v-model="formData.address" />
+            <b-form-input v-model="model.address" />
           </b-form-group>
         </b-col>
       </b-row>
@@ -44,13 +44,13 @@
         <b-col>
           <b-form-group>
             <label>Email Address</label>
-            <b-form-input disabled></b-form-input>
+            <b-form-input disabled :value="me.email"></b-form-input>
           </b-form-group>
         </b-col>
         <b-col>
           <b-form-group>
             <label>Phone Number</label>
-            <b-form-input v-model="formData.phone"></b-form-input>
+            <b-form-input v-model="model.phone"></b-form-input>
           </b-form-group>
         </b-col>
       </b-row>
@@ -67,10 +67,11 @@
 
 <script>
 import candidate from "@/api/candidate";
+import { mapActions, mapGetters } from "vuex"
 export default {
   data() {
     return {
-      formData: {
+      model: {
         firstName: "",
         lastName: "",
         country: "",
@@ -81,17 +82,28 @@ export default {
     };
   },
   methods: {
+    ...mapActions("auth", { fetchMe: "me" }),
     async submit() {
       try {
-        this.$emit("submit");
-        console.log(this.formData);
-        await candidate.postProfile(formData);
+        // this.$emit("submit");
+        console.log(this.model);
+        await candidate.postPersonalDetails(this.model);
+        await this.fetchMe()
         this.$emit("done");
       } catch (error) {
         this.$emit("fail");
       }
     },
   },
+  computed: {
+    ...mapGetters("auth", ["me"])
+  },
+  async mounted() {
+    await this.fetchMe()
+    Object.keys(this.model).forEach(key => {
+      this.model[key] = this.me.candidate[key]
+    })
+  }
 };
 </script>
 

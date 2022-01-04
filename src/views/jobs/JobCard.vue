@@ -10,7 +10,9 @@
     <h6 class="text-primary text-uppercase">
       {{ job.jobTitle }}
     </h6>
-    <p class="description mt-3"></p>
+    <p class="description mt-3">
+      Argon is a great free UI package based on Bootstrap 4 that includes the most important components and features.
+    </p>
     <div>
       <badge type="primary" rounded>design</badge>
       <badge type="primary" rounded>system</badge>

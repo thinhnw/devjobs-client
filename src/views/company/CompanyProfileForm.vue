@@ -40,7 +40,7 @@
         <b-col>
           <b-form-group>
             <label>Email Address</label>
-            <b-form-input disabled></b-form-input>
+            <b-form-input disabled :value="me.email"></b-form-input>
           </b-form-group>
         </b-col>
         <b-col>
@@ -62,30 +62,44 @@
 </template>
 
 <script>
-import candidate from "@/api/candidate";
+import corporate from "@/api/corporate";
+import { mapActions, mapGetters } from 'vuex';
 export default {
   data() {
     return {
       model: {
         name: "",
         country: "",
-        logo: "",
+        logo: null,
         about: "",
         phone: ""
       },
     };
   },
   methods: {
+    ...mapActions("auth", {
+      "getMe": "me"
+    }),
     async submit() {
       try {
         this.$emit("submit");
-        console.log(this.model);
+        let form = new FormData()
+        form.append("logo", this.model.logo)
+        form.append("name", this.model.name)
+        form.append("country", this.model.country)
+        form.append("about", this.model.about)
+        form.append("phone", this.model.phone)
+        await corporate.editProfile(this.me.corporate.id, form)
+        await this.getMe()
         this.$emit("done");
       } catch (error) {
         this.$emit("fail");
       }
     },
   },
+  computed: {
+    ...mapGetters("auth", ["me"])
+  }
 };
 </script>
 

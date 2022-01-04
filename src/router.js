@@ -116,7 +116,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(getToken())
+  // console.log(getToken())
   if (getToken() && ['login', 'register'].includes(to.name)) {
     if (from.name != to.name) {
       next({ name: from.name })

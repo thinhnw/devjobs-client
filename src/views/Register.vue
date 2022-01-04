@@ -70,6 +70,8 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
+import { getToken } from "@/utils/auth";
+import router from "@/router";
 export default {
   data() {
     return {
@@ -81,11 +83,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions("auth", ["register", "login"]),
+    ...mapActions("auth", ["register", "login", "me" ]),
     async handleRegister() {
       try {
         await this.register(this.model);
+        console.log('register', getToken())
         if (getToken()) {
+          await this.me()
           router.push("/")
         }
       } catch (error) {
@@ -93,6 +97,12 @@ export default {
       }
     },
   },
+  created() {
+    if (getToken()) {
+      this.me()
+      router.push("/")
+    }
+  }
 };
 </script>
 <style>

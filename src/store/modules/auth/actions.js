@@ -31,6 +31,15 @@ const login = ({ commit }, user) => {
   })
 }
 
+const me = ({ commit }, user) => {
+  return auth.me().then(res => {
+    if (res.status === Status.SUCCESS) {
+      commit('SET_ME', res.data)
+    }
+    return res
+  }).catch(err => { throw err })
+}
+
 const clear = ({ commit }) => {
   removeToken()
   removePermission()
@@ -40,5 +49,6 @@ const clear = ({ commit }) => {
 export default {
   register,
   login,
+  me,
   clear
 }

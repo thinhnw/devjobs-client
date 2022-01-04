@@ -10,7 +10,7 @@
       </icon>
     </div>
     <p><span class="text-danger">*</span> Required fields</p>
-    <b-form>
+    <b-form @submit.prevent="submit">
       <div
         v-for="(education, index) in educationProfile"
         :key="index"
@@ -31,28 +31,28 @@
         <b-row v-if="education.degree !== 'None'">
           <b-col>
             <b-form-group>
-              <label>School <span class="text-danger">*</span></label>
-              <b-form-input v-model="education.school" required />
+              <label>School</label>
+              <b-form-input v-model="education.school" />
             </b-form-group>
           </b-col>
           <b-col>
             <b-form-group>
-              <label>Field of Study <span class="text-danger">*</span></label>
-              <b-form-input v-model="education.fieldOfStudy" required />
+              <label>Field of Study </label>
+              <b-form-input v-model="education.fieldOfStudy"/>
             </b-form-group>
           </b-col>
         </b-row>
         <b-row v-if="education.degree !== 'None'">
           <b-col>
             <b-form-group>
-              <label>Country <span class="text-danger">*</span></label>
-              <b-form-input v-model="education.country" required />
+              <label>Country </label>
+              <b-form-input v-model="education.country" />
             </b-form-group>
           </b-col>
           <b-col>
             <b-form-group>
-              <label>City <span class="text-danger">*</span></label>
-              <b-form-input v-model="education.city" required />
+              <label>City </label>
+              <b-form-input v-model="education.city" />
             </b-form-group>
           </b-col>
         </b-row>
@@ -85,7 +85,7 @@
       </div>
       <b-row class="mt-5">
         <b-col class="text-center">
-          <b-button variant="primary" class="px-5 py-3">Next</b-button>
+          <b-button variant="primary" class="px-5 py-3" type="submit">Next</b-button>
           <b-button variant="outline-primary" class="py-3"
             >Previous Step</b-button
           >
@@ -96,8 +96,10 @@
 </template>
 
 <script>
+import candidate from "@/api/candidate";
 import flatPicker from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
+
 const educationObj = () => {
   return {
     degree: "None",
@@ -105,8 +107,8 @@ const educationObj = () => {
     school: "",
     city: "",
     country: "",
-    fromTime: "",
-    toTime: "",
+    fromTime: null,
+    toTime: null,
   };
 };
 export default {
@@ -135,7 +137,12 @@ export default {
       this.educationProfile.push(educationObj());
     },
     async submit() {
-      console.log(this.educationProfile);
+      try {
+        console.log(this.educationProfile);
+        await candidate.postEducationProfile(this.educationProfile) 
+      } catch (error) {
+        console.error(error) 
+      }
     },
   },
 };

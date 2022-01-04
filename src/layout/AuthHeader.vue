@@ -2,7 +2,10 @@
   <header class="header-global">
     <base-nav class="navbar-main" transparent type="" effect="light" expand>
       <router-link slot="brand" class="navbar-brand mr-lg-5" to="/">
-        <img src="img/brand/white.png" alt="logo" />
+        <div class="d-flex align-items-center">
+          <img src="img/brand/planet.png" alt="logo" />
+          <h2 class="text-white font-weight-bold ml-2 mb-0">DEVJOBS</h2>
+        </div>
       </router-link>
 
       <div class="row" slot="content-header" slot-scope="{ closeMenu }">

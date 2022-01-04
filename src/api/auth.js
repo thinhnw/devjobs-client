@@ -7,5 +7,8 @@ export default {
   },
   login(params) {
     return Api.post(API.LOGIN, params)
+  },
+  me() {
+    return Api.get(API.ME)
   }
 }

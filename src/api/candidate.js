@@ -9,15 +9,15 @@ export default {
     return Api.get(API.CANDIDATE + `/${id}`).then(res => res.data)
   },
 
-  postPersonalProfile(params) {
-    return Api.post(API.CANDIDATE + '/profile', { params }).then(res => res.data)
+  postPersonalDetails(params) {
+    return Api.post(API.CANDIDATE + '/personal-details', params).then(res => res.data)
   },
 
-  postEducationProfile(params) {
-    return Api.post(API.CANDIDATE + '/educations', { params }).then(res => res.data)
+  postEducationProfile(arr) {
+    return Api.post(API.CANDIDATE + '/educations', arr ).then(res => res.data)
   },
 
-  postWorkExperience(params) {
-    return Api.post(API.CANDIDATE + '/WorkExperiences', { params }).then(res => res.data)
+  postWorkExperience(arr) {
+    return Api.post(API.CANDIDATE + '/WorkExperiences', arr).then(res => res.data)
   }
 }

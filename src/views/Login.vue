@@ -76,11 +76,12 @@ export default {
     };
   },
   methods: {
-    ...mapActions("auth", ["register", "login"]),
+    ...mapActions("auth", ["register", "login", "me"]),
     async handleLogin() {
       try {
         await this.login(this.model);
         if (getToken()) {
+          await this.me()
           router.push("/")
         }
       } catch (error) {
@@ -88,7 +89,11 @@ export default {
       }
     },
   },
-  mounted() {
+  created() {
+    if (getToken()) {
+      this.me()
+      router.push("/")
+    }
   },
 };
 </script>
