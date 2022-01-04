@@ -18,6 +18,6 @@ export default {
   },
 
   postWorkExperience(arr) {
-    return Api.post(API.CANDIDATE + '/WorkExperiences', arr).then(res => res.data)
+    return Api.post(API.CANDIDATE + '/work-experiences', arr).then(res => res.data)
   }
 }

@@ -10,7 +10,7 @@
       </icon>
     </div>
     <p><span class="text-danger">*</span> Required fields</p>
-    <b-form>
+    <b-form @submit.prevent="submit">
       <div
         v-for="(work, index) in workProfile"
         :key="index"
@@ -77,10 +77,18 @@
             </base-input>
           </b-col>
         </b-row>
+        <b-row>
+          <b-col>
+            <label>Description <span class="text-danger">*</span> </label>
+            <b-textarea 
+              v-model="work.description"
+              placeholder="Describe what you have done in previous the job..." rows="5" required></b-textarea>
+          </b-col>
+        </b-row>
       </div>
       <b-row class="mt-5">
         <b-col class="text-center">
-          <b-button variant="primary" class="px-5 py-3">Next</b-button>
+          <b-button variant="primary" class="px-5 py-3" type="submit">Next</b-button>
           <b-button variant="outline-primary" class="py-3"
             >Previous Step</b-button
           >
@@ -91,6 +99,7 @@
 </template>
 
 <script>
+import candidate from "@/api/candidate";
 import flatPicker from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
 const workObj = () => {
@@ -99,8 +108,9 @@ const workObj = () => {
     organization: "",
     city: "",
     country: "",
-    fromTime: "",
-    toTime: ""
+    fromTime: null,
+    toTime: null,
+    description: ""
   };
 };
 export default {
@@ -119,7 +129,12 @@ export default {
       this.workProfile.push(workObj());
     },
     async submit() {
-      console.log(this.workProfile);
+      try {
+        console.log(this.workProfile);
+        await candidate.postWorkExperience(this.workProfile) 
+      } catch (error) {
+        console.error(error) 
+      }
     },
   },
 };

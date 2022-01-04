@@ -4,7 +4,7 @@
       <router-link slot="brand" class="navbar-brand mr-lg-5" to="/">
         <div class="d-flex align-items-center">
           <img src="img/brand/planet.png" alt="logo" />
-          <h2 class="text-white font-weight-bold ml-2 mb-0">DEVJOBS</h2>
+          <h2 class="text-white font-weight-bold ml-2 mb-0"><i>DEVJOBS</i></h2>
         </div>
       </router-link>
 
