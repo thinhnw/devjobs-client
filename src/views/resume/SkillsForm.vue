@@ -40,7 +40,7 @@
               <div>
                 <span role="button" class="material-icons md-18 text-primary pointer" v-if="skill.isDirty" @click="doneEditing(skill)">done</span>
                 <span role="button" class="material-icons md-18 text-primary pointer" v-else @click="edit(skill)">edit</span>
-                <span role="button" class="material-icons md-18 text-primary pointer">delete</span>
+                <span role="button" class="material-icons md-18 text-primary pointer" @click="remove(index)">delete</span>
               </div>
             </div>
           </b-col>
@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import candidate from "@/api/candidate";
 export default {
   data() {
     return {
@@ -75,11 +76,19 @@ export default {
       console.log(skill)
       skill.isDirty = true
     },
+    remove(index) {
+      this.skills.splice(index, 1)
+    },
     doneEditing(skill) {
       skill.isDirty = false
     },
     async submit() {
-      console.log(this.skills);
+      try {
+        console.log(this.skills);
+        await candidate.postSkills(this.skills) 
+      } catch (error) {
+        console.error(error) 
+      }
     },
   },
 };

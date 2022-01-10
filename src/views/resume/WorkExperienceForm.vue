@@ -102,6 +102,7 @@
 import candidate from "@/api/candidate";
 import flatPicker from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
+import { mapGetters } from 'vuex';
 const workObj = () => {
   return {
     jobTitle: "",
@@ -137,6 +138,19 @@ export default {
       }
     },
   },
+  computed: {
+    ...mapGetters("auth", ["me"])
+  },
+  watch: {
+    me: {
+      immediate: true,
+      handler() {
+        if (this.me.candidate) {
+          this.workProfile = this.me.candidate.workExperiences
+        }
+      }
+    }
+  }
 };
 </script>
 

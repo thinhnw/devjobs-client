@@ -19,5 +19,9 @@ export default {
 
   postWorkExperience(arr) {
     return Api.post(API.CANDIDATE + '/work-experiences', arr).then(res => res.data)
+  },
+
+  postSkills(arr) {
+    return Api.post(API.CANDIDATE + '/skills', arr).then(res => res.data)
   }
 }
